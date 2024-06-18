@@ -1,6 +1,3 @@
-import pytest
-
-
 def test_case1():
     print("hello pytest1")
 
