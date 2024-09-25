@@ -1,10 +1,12 @@
-def test_case1():
-    print("hello pytest1")
+from test.common.pytest_class import PyTestCase
 
 
-def test_case2():
-    print("hello pytest2")
+class TestCase1(PyTestCase):
+    def testcase(self):
+        print("testcase")
 
 
-def test_case3():
-    print("hello pytest3")
+class TestCase2(PyTestCase):
+    def testcase(self, name, age):
+        dtype_list = [torch.float16, torch.bfloat16]
+        print("testcase")
