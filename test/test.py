@@ -1,4 +1,4 @@
-from test.common.pytest_class import PyTestCase
+from test.common.pytestcase import PyTestCase
 
 
 class TestCase1(PyTestCase):
