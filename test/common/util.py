@@ -6,4 +6,4 @@ def get_root_path():
 
 
 def get_golden_root_path():
-    return "/stores/golden/pytest"
+    return "/tmp/golden/"

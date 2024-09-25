@@ -1,12 +1,14 @@
 import gc
+import os
 
 import pytest
 import torch
 
+from test.common.config import Config
 from test.common.util import get_root_path, get_golden_root_path
 
 
-class PyTestCase:
+class TestCaseBase:
     @pytest.fixture(autouse=True)
     def setup_method(self, request):
         self.root_path = get_root_path()
@@ -26,11 +28,23 @@ class PyTestCase:
         # set current case golden path.
         self.golden_path = f"{get_golden_root_path()}/{self.module_name}_{self.class_name}_{self.method_name}/{fields_and_values}"
         print(f"golden_path = {self.golden_path}")
+        # create golden folder.
+        os.makedirs(self.golden_path, exist_ok=True)
 
     def save_tensor(self, golden_file_name: str, tensor: torch.Tensor):
         file_name = f"{self.golden_path}/{golden_file_name}"
-        print(f"file_name = {file_name}")
-        print(tensor)
+        print(f"save tensor to {file_name}")
+        torch.save(tensor, file_name)
+
+    def load_tensor(self, golden_file_name: str) -> torch.Tensor:
+        file_name = f"{self.golden_path}/{golden_file_name}"
+        print(f"load tensor from {file_name}")
+        tmp = torch.load(file_name)
+        return tmp
+
+    def compare_tensor(self):
+        if Config.golden_flag:
+            pass
         pass
 
     def teardown_method(self, method):

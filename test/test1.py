@@ -3,7 +3,7 @@ from collections import namedtuple
 import pytest
 import torch
 
-from test.common.pytestcase import PyTestCase
+from test.common.test_case import TestCaseBase
 
 Parameters = namedtuple('Parameters', ['tp_size', 'dtype', 'bias'])
 parameters_list = [
@@ -12,7 +12,7 @@ parameters_list = [
 ]
 
 
-class TestCase1(PyTestCase):
+class TestCase1(TestCaseBase):
     @pytest.mark.parametrize("parameters", parameters_list)
     def testcase1(self, parameters):
         print(parameters.tp_size)
@@ -20,7 +20,8 @@ class TestCase1(PyTestCase):
         print(parameters.bias)
 
         a = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
-
+        print(a)
         self.save_tensor("a.pth", a)
-        
-        pass
+
+        b = self.load_tensor("a.pth")
+        print(b)
