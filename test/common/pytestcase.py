@@ -10,8 +10,7 @@ class PyTestCase:
         print(f"root_path = {self.root_path}")
         print(f"method_name = {self.method_name}")
         print(f"golden_path = {self.golden_path}")
-        print(method.__code__.co_varnames)
-        print("\n\n")
+        print("\n")
 
     def teardown_method(self, method):
         print(f"\n\n<<< <<< <<< [ {method.__qualname__} ] stop <<< <<< <<<")
