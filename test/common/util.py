@@ -1,5 +1,6 @@
 import os
 
+import pynvml
 import torch
 
 
@@ -8,6 +9,15 @@ import torch
 # *******************************************************************************
 def get_root_path():
     return os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
+
+# *******************************************************************************
+# load_tensor.
+# *******************************************************************************
+def enable_golden() -> bool:
+    pynvml.nvmlInit()
+    gpu_name = pynvml.nvmlDeviceGetName(pynvml.nvmlDeviceGetHandleByIndex(0))
+    return "NVIDIA" in gpu_name
 
 
 # *******************************************************************************

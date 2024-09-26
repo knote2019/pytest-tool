@@ -6,6 +6,7 @@ import pytest
 import torch
 
 from test.common.config import Config
+from test.common.util import enable_golden
 from test.common.util import load_tensor
 from test.common.util import save_tensor
 
@@ -40,7 +41,7 @@ class TestCaseBase:
     # *******************************************************************************
     def compare_tensor(self, golden_file_name: str, actual_tensor: torch.Tensor) -> bool:
         golden_file_path = f"{self.golden_path}/{golden_file_name}"
-        if Config.enable_golden:
+        if enable_golden():
             print(f"save tensor from {golden_file_path}")
             save_tensor(golden_file_path, actual_tensor)
             return True
