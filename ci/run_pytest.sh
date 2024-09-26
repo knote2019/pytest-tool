@@ -11,7 +11,7 @@ cd $ROOT_PATH
 ls -ls
 
 if [[ ".py" =~ "${CI_CASES_REGEX}" ]];then
-    echo "pytest ${CI_CASES_REGEX}
+    echo "pytest ${CI_CASES_REGEX}"
     pytest ${CI_CASES_REGEX}
 else
     echo "pytest ${CI_CASES_REGEX}/*.py --junitxml=./iluvatar_test_report.xml"
