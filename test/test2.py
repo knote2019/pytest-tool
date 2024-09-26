@@ -1,11 +1,11 @@
-from collections import namedtuple
+import collections
 
 import pytest
 import torch
 
 from test.common.testcase_base import TestCaseBase
 
-Parameters = namedtuple('Parameters', ['tp_size', 'dtype', 'bias'])
+Parameters = collections.namedtuple('Parameters', ['tp_size', 'dtype', 'bias'])
 parameters_list = [
     Parameters(1, torch.float16, True),
     Parameters(2, torch.bfloat16, False),

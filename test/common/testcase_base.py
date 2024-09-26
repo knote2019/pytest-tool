@@ -1,3 +1,4 @@
+import collections
 import gc
 import os
 
@@ -19,7 +20,7 @@ class TestCaseBase:
         self.module_name = str(request.module.__name__)
         self.class_name = str(request.cls.__name__)
         self.method_name = str(request.node.originalname)
-        self.parameters = request.node.callspec.params["parameters"]
+        self.parameters: collections.namedtuple = request.node.callspec.params["parameters"]
         # case start.
         print(f"\n>>> >>> >>> [ {self.class_name} ][ {self.method_name} ] start >>> >>> >>>")
         print(f"class_name = {self.class_name}")
