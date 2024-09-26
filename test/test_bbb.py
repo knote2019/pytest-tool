@@ -12,9 +12,9 @@ parameters_list = [
 ]
 
 
-class TestCase1(TestCaseBase):
+class TestBBB(TestCaseBase):
     @pytest.mark.parametrize("parameters", parameters_list)
-    def testcase1(self, parameters):
+    def test_bbb(self, parameters):
         print(parameters.tp_size)
         print(parameters.dtype)
         print(parameters.bias)
