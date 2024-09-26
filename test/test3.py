@@ -20,8 +20,11 @@ class TestCase2(TestCaseBase):
         print(parameters.bias)
 
         a = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
-        print(a)
-        self.save_tensor("a.pth", a)
+        b = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
+        c = a + b
 
-        b = self.load_tensor("a.pth")
+        print(a)
         print(b)
+        print(c)
+
+        self.compare_tensor("c", c)
