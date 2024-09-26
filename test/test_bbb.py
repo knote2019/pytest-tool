@@ -14,7 +14,7 @@ parameters_list = [
 
 class TestBBB(TestCase):
     @pytest.mark.parametrize("parameters", parameters_list)
-    def test_bbb_1(self, parameters):
+    def test_bbb_fp16(self, parameters):
         print(parameters.tp_size)
         print(parameters.dtype)
         print(parameters.bias)
@@ -30,7 +30,7 @@ class TestBBB(TestCase):
         self.compare_tensor("c", c)
 
     @pytest.mark.parametrize("parameters", parameters_list)
-    def test_bbb_2(self, parameters):
+    def test_bbb_bf16(self, parameters):
         print(parameters.tp_size)
         print(parameters.dtype)
         print(parameters.bias)
