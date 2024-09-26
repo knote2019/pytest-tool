@@ -12,7 +12,7 @@ parameters_list = [
 ]
 
 
-class TestCase2(TestCaseBase):
+class TestCase3(TestCaseBase):
     @pytest.mark.parametrize("parameters", parameters_list)
     def testcase1(self, parameters):
         print(parameters.tp_size)
