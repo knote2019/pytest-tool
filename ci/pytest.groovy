@@ -64,7 +64,8 @@ pipeline {
         stage('generate_report') {
             steps {
                 script{
-                    allure([includeProperties: false, jdk: '', results: [[path: "${env.WORKSPACE}/iluvatar_test_report"]]])
+                    exec_shell """mkdir iluvatar_test_report; mv \$(find . -name iluvatar_test_report.xml) iluvatar_test_report"""
+                    allure([includeProperties: false, jdk: '', results: [[path: 'iluvatar_test_report']]])
                 }
             }
         }
