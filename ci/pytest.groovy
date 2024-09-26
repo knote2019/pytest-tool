@@ -64,8 +64,7 @@ pipeline {
         stage('generate_report') {
             steps {
                 script{
-                    exec_shell """find . -name iluvatar_test_report"""
-                    allure([includeProperties: false, jdk: '', results: [[path: 'iluvatar_test_report']]])
+                    allure([includeProperties: false, jdk: '', results: [[path: './iluvatar_test_report']]])
                 }
             }
         }
