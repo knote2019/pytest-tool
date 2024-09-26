@@ -1,6 +1,5 @@
 import collections
 
-import allure
 import pytest
 import torch
 
@@ -14,7 +13,6 @@ parameters_list = [
 
 
 class TestAAA(TestCaseBase):
-    @allure.link("http://jira.iluvatar.ai:8080/browse/TEST-9105")
     @pytest.mark.parametrize("parameters", parameters_list)
     def test_aaa(self, parameters):
         print(parameters.tp_size)
