@@ -64,7 +64,7 @@ pipeline {
         stage('generate_report') {
             steps {
                 script{
-                    allure([results: [[path: 'iluvatar_test_report']]])
+                    allure([includeProperties: false, jdk: '', results: [[path: 'iluvatar_test_report']]])
                 }
             }
         }
