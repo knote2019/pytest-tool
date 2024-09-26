@@ -28,3 +28,4 @@ class TestCCC(TestCaseBase):
         print(c)
 
         self.compare_tensor("c", c)
+        self.raise_exception("compare failed !!!")

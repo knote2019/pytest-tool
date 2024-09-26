@@ -28,5 +28,3 @@ class TestAAA(TestCaseBase):
         print(c)
 
         self.compare_tensor("c", c)
-
-        raise Exception("kkk")

@@ -51,6 +51,12 @@ class TestCaseBase:
             return torch.allclose(actual_tensor, expect_tensor)
 
     # *******************************************************************************
+    # raise_exception.
+    # *******************************************************************************
+    def raise_exception(self, msg: str):
+        raise Exception(msg)
+
+    # *******************************************************************************
     # teardown_method.
     # *******************************************************************************
     def teardown_method(self, method):
