@@ -39,7 +39,7 @@ class TestCaseBase:
     def load_tensor(self, golden_file_name: str) -> torch.Tensor:
         file_name = f"{self.golden_path}/{golden_file_name}"
         print(f"load tensor from {file_name}")
-        tmp = torch.load(file_name)
+        tmp = torch.load(file_name, weights_only=True)
         return tmp
 
     def compare_tensor(self):
