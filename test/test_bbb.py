@@ -14,7 +14,23 @@ parameters_list = [
 
 class TestBBB(TestCase):
     @pytest.mark.parametrize("parameters", parameters_list)
-    def test_bbb(self, parameters):
+    def test_bbb_1(self, parameters):
+        print(parameters.tp_size)
+        print(parameters.dtype)
+        print(parameters.bias)
+
+        a = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
+        b = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
+        c = a + b
+
+        print(a)
+        print(b)
+        print(c)
+
+        self.compare_tensor("c", c)
+
+    @pytest.mark.parametrize("parameters", parameters_list)
+    def test_bbb_2(self, parameters):
         print(parameters.tp_size)
         print(parameters.dtype)
         print(parameters.bias)
