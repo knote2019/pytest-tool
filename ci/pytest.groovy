@@ -32,8 +32,6 @@ pipeline {
             steps {
                 script{
                     sh """
-                    #wget -q http://10.113.3.1/corex/toolbox/host_cmd/install_ixdriver.sh -O /usr/bin/install_ixdriver && chmod +x /usr/bin/install_ixdriver
-                    install_ixdriver ${CI_COREX_PKG_URL}
                     """
                     execute.db_record(CI_COREX_PKG_URL)
                 }
@@ -52,12 +50,10 @@ pipeline {
                         currentBuild.description=""
                         currentBuild.description += "SSH: ${testagent_ssh_ip}:${testagent_ssh_port}\tVNC: ${testagent_ssh_ip}:${testagent_vnc_port}"
                         exec_shell """
-                            install_corex ${CI_COREX_PKG_URL} toolkit
-                            install_corex ${CI_COREX_PKG_URL} ixrt
                         """
                         exec_shell """
                             cd ${env.WORKSPACE}/ci
-                            bash run_ixrt_test.sh "${CI_CASES_REGEX}"
+                            bash run_pytest.sh "${CI_CASES_REGEX}"
                         """
                         if(CI_KEEP_TESTAGENT.contains("true")) {sh """sleep infinity"""}
                     }
