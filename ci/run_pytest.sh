@@ -8,8 +8,12 @@ CI_CASES_REGEX="$1"
 echo "CI_CASES_REGEX=${CI_CASES_REGEX}"
 
 cd $ROOT_PATH
+ls -ls
+
 if [[ ".py" =~ "${CI_CASES_REGEX}" ]];then
-    pytest "${CI_CASES_REGEX}"
+    echo "pytest ${CI_CASES_REGEX}
+    pytest ${CI_CASES_REGEX}
 else
-    pytest "${CI_CASES_REGEX}/*.py" --junitxml=./iluvatar_test_report.xml
+    echo "pytest ${CI_CASES_REGEX}/*.py --junitxml=./iluvatar_test_report.xml"
+    pytest ${CI_CASES_REGEX}/*.py --junitxml=./iluvatar_test_report.xml
 fi
