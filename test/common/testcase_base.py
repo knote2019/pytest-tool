@@ -45,7 +45,7 @@ class TestCaseBase:
             return True
         else:
             print(f"load tensor from {golden_file_path}")
-            expect_tensor = load_tensor(golden_file_name)
+            expect_tensor = load_tensor(golden_file_path)
             return torch.allclose(actual_tensor, expect_tensor)
 
     # *******************************************************************************
