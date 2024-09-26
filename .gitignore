@@ -1,6 +1,5 @@
 .idea/
 **/__pycache__
-**.pytest_cache
 **/false/
 **/allure_report/
 **/model.cache
