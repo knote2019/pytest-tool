@@ -11,7 +11,7 @@ from test.common.util import load_tensor
 from test.common.util import save_tensor
 
 
-class TestCaseBase:
+class TestCase:
     # *******************************************************************************
     # setup_method.
     # *******************************************************************************

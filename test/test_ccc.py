@@ -3,7 +3,7 @@ import collections
 import pytest
 import torch
 
-from test.common.testcase_base import TestCaseBase
+from test.common.testcase import TestCase
 
 Parameters = collections.namedtuple('Parameters', ['tp_size', 'dtype', 'bias'])
 parameters_list = [
@@ -12,7 +12,7 @@ parameters_list = [
 ]
 
 
-class TestCCC(TestCaseBase):
+class TestCCC(TestCase):
     @pytest.mark.parametrize("parameters", parameters_list)
     def test_ccc(self, parameters):
         print(parameters.tp_size)
