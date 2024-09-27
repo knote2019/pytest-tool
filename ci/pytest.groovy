@@ -30,7 +30,6 @@ pipeline {
         stage('install_ixdriver') {
             steps {
                 script{
-                    currentBuild.description=""
                     sh """
                     """
                     execute.db_record(CI_COREX_PKG_URL)
