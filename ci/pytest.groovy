@@ -30,6 +30,7 @@ pipeline {
         stage('install_ixdriver') {
             steps {
                 script{
+                    currentBuild.description=""
                     sh """
                     """
                     execute.db_record(CI_COREX_PKG_URL)
@@ -42,12 +43,10 @@ pipeline {
                 script{
                     testagent_ssh_ip = sh(script: """hostname -I | awk -F ' ' '{print \$1}'""", returnStdout: true).trim()
                     testagent_ssh_port = sh(script: """shuf -i 10000-60000 -n1""", returnStdout: true).trim()
-                    testagent_vnc_port = sh(script: """shuf -i 10000-60000 -n1""", returnStdout: true).trim()
                     def dockerImage = docker.image("${CI_TESTAGENT}")
                     dockerImage.pull()
-                    dockerImage.inside("-p ${testagent_ssh_port}:22 -p ${testagent_vnc_port}:6901 -v /dev:/dev -v /lib/modules:/lib/modules --privileged --shm-size 64g -v /stores:/stores") {
-                        currentBuild.description=""
-                        currentBuild.description += "SSH: ${testagent_ssh_ip}:${testagent_ssh_port}\tVNC: ${testagent_ssh_ip}:${testagent_vnc_port}"
+                    dockerImage.inside("-p ${testagent_ssh_port}:22 -v /dev:/dev -v /lib/modules:/lib/modules --privileged --shm-size 64g -v /stores:/stores") {
+                        currentBuild.description += "${testagent_ssh_ip}:${testagent_ssh_port}"
                         exec_shell """
                         """
                         exec_shell """
