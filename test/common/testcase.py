@@ -62,4 +62,5 @@ class TestCase:
     def teardown_method(self, method):
         print(method)
         gc.collect()
+        torch.cuda.empty_cache()
         print(f"\n<<< <<< <<< [ {self.class_name} ][ {self.method_name} ] stop <<< <<< <<<")
