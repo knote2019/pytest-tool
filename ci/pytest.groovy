@@ -45,7 +45,7 @@ pipeline {
                     def dockerImage = docker.image("${CI_TESTAGENT}")
                     dockerImage.pull()
                     dockerImage.inside("-p ${testagent_ssh_port}:22 -v /dev:/dev -v /lib/modules:/lib/modules --privileged --shm-size 64g -v /stores:/stores") {
-                        currentBuild.description += "${testagent_ssh_ip}:${testagent_ssh_port}"
+                        currentBuild.description = "${testagent_ssh_ip}:${testagent_ssh_port}"
                         exec_shell """
                         """
                         exec_shell """
