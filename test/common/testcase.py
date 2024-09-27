@@ -40,6 +40,7 @@ class TestCase:
         self.world_size = world_size
         self.rank = rank
         print(f"start to init process group for rank {self.rank} !!!")
+        torch.cuda.set_device(rank)
         torch.distributed.init_process_group("nccl", init_method='tcp://127.0.0.1:5678',
                                              world_size=world_size,
                                              rank=rank)
