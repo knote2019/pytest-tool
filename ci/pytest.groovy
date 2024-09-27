@@ -11,7 +11,6 @@ def CI_BRANCH = params.CI_BRANCH.trim()
 def CI_KEEP_TESTAGENT = params.CI_KEEP_TESTAGENT.trim()
 // ---------------------------------------------------------------------------------------------------------------------
 
-def start_time = (new Date().time / 1000).intValue()
 def testagent_ssh_ip = ""
 def testagent_ssh_port = ""
 
