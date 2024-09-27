@@ -8,3 +8,5 @@ pwd
 ls -l
 echo pytest ${CI_CASES_REGEX} --capture=no --clean-alluredir --alluredir=${CI_TEST_REPORT_PATH}
 pytest ${CI_CASES_REGEX} --capture=no --clean-alluredir --alluredir=${CI_TEST_REPORT_PATH}
+
+ls -l ${CI_TEST_REPORT_PATH}
