@@ -36,6 +36,14 @@ class TestCase:
         # create golden folder.
         os.makedirs(self.golden_path, exist_ok=True)
 
+    def init_process_group(self, world_size, rank):
+        self.world_size = world_size
+        self.rank = rank
+        print(f"start to init process group for rank {self.rank} !!!")
+        torch.distributed.init_process_group("nccl", init_method='tcp://127.0.0.1:5678',
+                                             world_size=world_size,
+                                             rank=rank)
+
     # *******************************************************************************
     # compare_tensor.
     # *******************************************************************************
@@ -57,10 +65,16 @@ class TestCase:
         raise Exception(msg)
 
     # *******************************************************************************
+    # destroy_process_group.
+    # *******************************************************************************
+    def destroy_process_group(self):
+        print(f"start to destroy process group for rank {self.rank} !!!")
+        torch.distributed.destroy_process_group()
+
+    # *******************************************************************************
     # teardown_method.
     # *******************************************************************************
-    def teardown_method(self, method):
-        print(method)
+    def teardown_method(self):
         gc.collect()
         torch.cuda.empty_cache()
         print(f"\n<<< <<< <<< [ {self.class_name} ][ {self.method_name} ] stop <<< <<< <<<")
