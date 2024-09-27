@@ -50,7 +50,7 @@ pipeline {
                             echo "install ${CI_COREX_PKG_URL}"
                         """
                         exec_shell """
-                            bash run_test.sh "${CI_CASES_REGEX}" "${env.WORKSPACE}/test-report"
+                            bash run_test.sh "${CI_CASES_REGEX}"
                         """
                         if(CI_KEEP_TESTAGENT.contains("true")) {sh """sleep infinity"""}
                     }
@@ -61,7 +61,7 @@ pipeline {
         stage('generate_report') {
             steps {
                 script{
-                    allure([includeProperties: false, jdk: '', results: [[path: "${env.WORKSPACE}/test-report"]]])
+                    allure([includeProperties: false, jdk: '', results: [[path: "allure_report"]]])
                 }
             }
         }
