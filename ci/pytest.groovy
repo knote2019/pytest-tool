@@ -47,6 +47,7 @@ pipeline {
                     dockerImage.inside("-p ${testagent_ssh_port}:22 -v /dev:/dev -v /lib/modules:/lib/modules --privileged --shm-size 64g -v /stores:/stores") {
                         currentBuild.description = "${testagent_ssh_ip}:${testagent_ssh_port}"
                         exec_shell """
+                            echo "install ${CI_COREX_PKG_URL}"
                         """
                         exec_shell """
                             cd ${env.WORKSPACE}/ci
