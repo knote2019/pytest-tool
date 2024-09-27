@@ -39,6 +39,13 @@ def show_tensor_full(tensor: torch.Tensor):
 
 
 # *******************************************************************************
+# update_tensor_data.
+# *******************************************************************************
+def update_tensor_data(tensor_old: torch.Tensor, tensor_new: torch.Tensor):
+    tensor_old.data.copy_(tensor_new)
+
+
+# *******************************************************************************
 # save_tensor.
 # *******************************************************************************
 def save_tensor(file_name: str, tensor: torch.Tensor):
