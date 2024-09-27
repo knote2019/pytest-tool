@@ -51,7 +51,7 @@ pipeline {
                         """
                         exec_shell """
                             cd ${env.WORKSPACE}/ci
-                            bash run_pytest.sh "${CI_CASES_REGEX}" "${env.WORKSPACE}/test_report"
+                            bash run_pytest.sh "${CI_CASES_REGEX}" "${env.WORKSPACE}/test-report"
                         """
                         if(CI_KEEP_TESTAGENT.contains("true")) {sh """sleep infinity"""}
                     }
@@ -62,7 +62,7 @@ pipeline {
         stage('generate_report') {
             steps {
                 script{
-                    allure([includeProperties: false, jdk: '', results: [[path: '${env.WORKSPACE}/test_report']]])
+                    allure([includeProperties: false, jdk: '', results: [[path: "${env.WORKSPACE}/test-report"]]])
                 }
             }
         }
