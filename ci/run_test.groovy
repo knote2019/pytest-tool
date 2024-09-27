@@ -50,7 +50,7 @@ pipeline {
                             echo "install ${CI_COREX_PKG_URL}"
                         """
                         exec_shell """
-                            bash ${env.WORKSPACE}/ci/run_pytest.sh "${CI_CASES_REGEX}" "${env.WORKSPACE}/test-report"
+                            bash run_test.sh "${CI_CASES_REGEX}" "${env.WORKSPACE}/test-report"
                         """
                         if(CI_KEEP_TESTAGENT.contains("true")) {sh """sleep infinity"""}
                     }
