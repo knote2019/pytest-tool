@@ -5,15 +5,14 @@ echo "ROOT_PATH=$ROOT_PATH"
 
 #-----------------------------------------------------------------------------------------------------------------------
 CI_CASES_REGEX="$1"
+CI_ALLURE_REPORT_PATH="$2"
 echo "CI_CASES_REGEX=${CI_CASES_REGEX}"
-
-cd $ROOT_PATH
-ls -ls
+echo "CI_ALLURE_REPORT_PATH=${CI_ALLURE_REPORT_PATH}"
 
 if [[ ".py" =~ "${CI_CASES_REGEX}" ]];then
-    echo "pytest ${CI_CASES_REGEX}"
-    pytest ${CI_CASES_REGEX}
+    echo pytest ${CI_CASES_REGEX} --alluredir=${CI_ALLURE_REPORT_PATH}
+    pytest ${CI_CASES_REGEX} --alluredir=${CI_ALLURE_REPORT_PATH}
 else
-    echo "pytest ${CI_CASES_REGEX}/*.py"
-    pytest ${CI_CASES_REGEX}/*.py
+    echo pytest ${CI_CASES_REGEX}/*.py --alluredir=${CI_ALLURE_REPORT_PATH}
+    pytest ${CI_CASES_REGEX}/*.py --alluredir=${CI_ALLURE_REPORT_PATH}
 fi
