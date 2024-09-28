@@ -75,7 +75,7 @@ class TestCase:
     def compare_tensor(self, golden_file_name: str, actual_tensor: torch.Tensor, rank) -> bool:
         golden_file_path = f"{self.get_rank_golden_path(rank)}/{golden_file_name}"
         if enable_golden():
-            print(f"save tensor from {golden_file_path}")
+            print(f"save tensor to {golden_file_path}")
             save_tensor(golden_file_path, actual_tensor)
             return True
         else:
