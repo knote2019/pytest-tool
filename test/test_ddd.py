@@ -16,9 +16,8 @@ parameters_list = [
 class TestDDD(TestCase):
     @pytest.mark.parametrize("parameters", parameters_list)
     def test_ddd(self, parameters):
-        mp.spawn(self.rank_process, nprocs=parameters.tp_size, join=True)
+        world_size = 2
+        mp.spawn(self.rank_process, nprocs=world_size, args=(world_size,), join=True)
 
-    def rank_process(self, rank):
-        self.init_process_group(self.parameters.tp_size, rank)
-        print("kkk")
-        self.destroy_process_group()
+    def run(self, rank):
+        print("run")
