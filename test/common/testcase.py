@@ -36,7 +36,18 @@ class TestCase:
         # create golden folder.
         os.makedirs(self.golden_path, exist_ok=True)
 
-    def rank_process(self, rank, world_size):
+    def calculate_world_size(self, parameters: collections.namedtuple) -> int:
+        tp_size = 1
+        cp_size = 1
+        if hasattr(parameters, "tp_size"):
+            tp_size = parameters.tp_size
+        if hasattr(parameters, "cp_size"):
+            cp_size = parameters.cp_size
+        world_size = tp_size * cp_size
+        print(f"{self.class_name}'s world_size = {world_size}")
+        return world_size
+
+    def rank_process(self, rank, world_size, parameters):
         print(f"rank {rank} start !!!")
         torch.distributed.init_process_group("nccl", init_method='tcp://127.0.0.1:5678',
                                              world_size=world_size,
@@ -45,13 +56,13 @@ class TestCase:
         torch.manual_seed(666 + rank)
         # ----------------------------
         torch.distributed.barrier()
-        self.run(rank)
+        self.run(rank, parameters)
         torch.distributed.barrier()
         # ----------------------------
         torch.distributed.destroy_process_group()
         print(f"rank {rank} stop !!!")
 
-    def run(self, rank):
+    def run(self, rank: int, parameters: collections.namedtuple):
         pass
 
     # *******************************************************************************
