@@ -2,6 +2,7 @@ import collections
 
 import pytest
 import torch
+import torch.multiprocessing as mp
 
 from test.common.testcase import TestCase
 
@@ -15,9 +16,13 @@ parameters_list = [
 class TestCCC(TestCase):
     @pytest.mark.parametrize("parameters", parameters_list)
     def test_ccc(self, parameters):
-        print(parameters.tp_size)
-        print(parameters.dtype)
-        print(parameters.bias)
+        world_size = self.calculate_world_size(parameters)
+        mp.spawn(self.rank_process, nprocs=world_size, args=(world_size, parameters), join=True)
+
+    def run(self, rank, parameters):
+        print(f"tp_size = {parameters.tp_size}")
+        print(f"dtype = {parameters.dtype}")
+        print(f"bias = {parameters.bias}")
 
         a = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
         b = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
@@ -27,5 +32,4 @@ class TestCCC(TestCase):
         print(b)
         print(c)
 
-        self.compare_tensor("c", c)
-        self.raise_exception("compare failed !!!")
+        self.compare_tensor("c", c, rank)

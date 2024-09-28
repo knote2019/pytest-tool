@@ -2,6 +2,7 @@ import collections
 
 import pytest
 import torch
+import torch.multiprocessing as mp
 
 from test.common.testcase import TestCase
 
@@ -14,10 +15,14 @@ parameters_list = [
 
 class TestBBB(TestCase):
     @pytest.mark.parametrize("parameters", parameters_list)
-    def test_bbb_fp16(self, parameters):
-        print(parameters.tp_size)
-        print(parameters.dtype)
-        print(parameters.bias)
+    def test_bbb(self, parameters):
+        world_size = self.calculate_world_size(parameters)
+        mp.spawn(self.rank_process, nprocs=world_size, args=(world_size, parameters), join=True)
+
+    def run(self, rank, parameters):
+        print(f"tp_size = {parameters.tp_size}")
+        print(f"dtype = {parameters.dtype}")
+        print(f"bias = {parameters.bias}")
 
         a = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
         b = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
@@ -27,20 +32,4 @@ class TestBBB(TestCase):
         print(b)
         print(c)
 
-        self.compare_tensor("c", c)
-
-    @pytest.mark.parametrize("parameters", parameters_list)
-    def test_bbb_bf16(self, parameters):
-        print(parameters.tp_size)
-        print(parameters.dtype)
-        print(parameters.bias)
-
-        a = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
-        b = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
-        c = a + b
-
-        print(a)
-        print(b)
-        print(c)
-
-        self.compare_tensor("c", c)
+        self.compare_tensor("c", c, rank)
