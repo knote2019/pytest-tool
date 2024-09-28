@@ -55,9 +55,9 @@ class TestCase:
         torch.cuda.set_device(rank)
         torch.manual_seed(666 + rank)
         # ----------------------------
-        torch.distributed.barrier()
+        # torch.distributed.barrier()
         self.run(rank, parameters)
-        torch.distributed.barrier()
+        # torch.distributed.barrier()
         # ----------------------------
         torch.distributed.destroy_process_group()
         self.teardown_method()
