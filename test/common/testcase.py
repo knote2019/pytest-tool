@@ -59,6 +59,7 @@ class TestCase:
         torch.distributed.barrier()
         # ----------------------------
         torch.distributed.destroy_process_group()
+        self.teardown_method()
         print(f"rank {rank} stop !!!")
 
     # *******************************************************************************
