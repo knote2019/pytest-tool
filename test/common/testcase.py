@@ -29,6 +29,9 @@ class TestCase:
         print(f"method_name = {self.method_name}")
         print(f"parameters_desc = {self.parameters_desc}")
 
+    # *******************************************************************************
+    # calculate_world_size.
+    # *******************************************************************************
     def calculate_world_size(self, parameters):
         tp_size = 1
         cp_size = 1
@@ -40,6 +43,9 @@ class TestCase:
         print(f"{self.class_name}'s world_size = {world_size}")
         return world_size
 
+    # *******************************************************************************
+    # rank_process.
+    # *******************************************************************************
     def rank_process(self, rank, world_size, parameters):
         print(f"rank {rank} start !!!")
         torch.distributed.init_process_group("nccl", init_method='tcp://127.0.0.1:5678',
@@ -55,6 +61,9 @@ class TestCase:
         torch.distributed.destroy_process_group()
         print(f"rank {rank} stop !!!")
 
+    # *******************************************************************************
+    # run.
+    # *******************************************************************************
     def run(self, rank: int, parameters):
         pass
 
@@ -72,6 +81,9 @@ class TestCase:
             expect_tensor = load_tensor(golden_file_path)
             return torch.allclose(actual_tensor, expect_tensor)
 
+    # *******************************************************************************
+    # get_rank_golden_path.
+    # *******************************************************************************
     def get_rank_golden_path(self, rank):
         class_golden_path = f"{Config.golden_root_path}/{self.module_name}.py/{self.class_name}"
         rank_golden_path = f"{class_golden_path}/{self.method_name}/{self.parameters_desc}/rank{rank}"
