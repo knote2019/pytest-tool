@@ -16,7 +16,7 @@ class TestCase:
     # *******************************************************************************
     @pytest.fixture(autouse=True)
     def setup_method(self, request):
-        print(f"\n====================================================================================")
+        print(f"\n===========================================================================================")
         # get context information.
         self.module_name = str(request.module.__name__)
         self.class_name = str(request.cls.__name__)
