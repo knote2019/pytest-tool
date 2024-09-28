@@ -15,7 +15,7 @@ parameters_list = [
 
 class TestDDD(TestCase):
     @pytest.mark.parametrize("parameters", parameters_list)
-    def test(self, parameters):
+    def test_ddd(self, parameters):
         world_size = self.calculate_world_size(parameters)
         mp.spawn(self.rank_process, nprocs=world_size, args=(world_size, parameters), join=True)
 
