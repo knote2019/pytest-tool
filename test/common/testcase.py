@@ -60,7 +60,7 @@ class TestCase:
         # torch.distributed.barrier()
         # ----------------------------
         torch.distributed.destroy_process_group()
-        self.teardown_method()
+        torch.cuda.empty_cache()
         print(f"rank {rank} stop !!!")
 
     # *******************************************************************************
@@ -105,5 +105,4 @@ class TestCase:
     # *******************************************************************************
     def teardown_method(self):
         gc.collect()
-        torch.cuda.empty_cache()
         print(f"\n<<< <<< <<< [ {self.class_name} ][ {self.method_name} ] stop <<< <<< <<<")
