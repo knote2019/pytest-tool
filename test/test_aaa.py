@@ -17,10 +17,7 @@ class TestAAA(TestCase):
     @pytest.mark.parametrize("parameters", parameters_list)
     def test_aaa(self, parameters):
         world_size = self.calculate_world_size(parameters)
-        if world_size == 1:
-            self.rank_process(0, 1, parameters)
-        else:
-            mp.spawn(self.rank_process, nprocs=world_size, args=(world_size, parameters), join=True)
+        mp.spawn(self.rank_process, nprocs=world_size, args=(world_size, parameters), join=True)
 
     def run(self, rank, parameters):
         print(f"tp_size = {parameters.tp_size}")
