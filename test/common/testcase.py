@@ -36,7 +36,7 @@ class TestCase:
         # create golden folder.
         os.makedirs(self.golden_path, exist_ok=True)
 
-    def calculate_world_size(self, parameters: collections.namedtuple) -> int:
+    def calculate_world_size(self, parameters):
         tp_size = 1
         cp_size = 1
         if hasattr(parameters, "tp_size"):
@@ -62,7 +62,7 @@ class TestCase:
         torch.distributed.destroy_process_group()
         print(f"rank {rank} stop !!!")
 
-    def run(self, rank: int, parameters: collections.namedtuple):
+    def run(self, rank: int, parameters):
         pass
 
     # *******************************************************************************
@@ -82,7 +82,7 @@ class TestCase:
     # *******************************************************************************
     # raise_exception.
     # *******************************************************************************
-    def raise_exception(self, msg: str):
+    def raise_exception(self, msg):
         raise Exception(msg)
 
     # *******************************************************************************
