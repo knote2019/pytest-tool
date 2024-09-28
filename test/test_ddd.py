@@ -23,3 +23,14 @@ class TestDDD(TestCase):
         print(f"tp_size = {parameters.tp_size}")
         print(f"dtype = {parameters.dtype}")
         print(f"bias = {parameters.bias}")
+
+        a = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
+        b = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
+        c = a + b
+
+        print(a)
+        print(b)
+        print(c)
+
+        self.compare_tensor("c", c, rank)
+

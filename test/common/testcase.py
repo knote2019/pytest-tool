@@ -1,4 +1,3 @@
-import collections
 import gc
 import os
 
@@ -21,20 +20,14 @@ class TestCase:
         self.module_name = str(request.module.__name__)
         self.class_name = str(request.cls.__name__)
         self.method_name = str(request.node.originalname)
-        self.parameters: collections.namedtuple = request.node.callspec.params["parameters"]
+        self.parameters = request.node.callspec.params["parameters"]
+        self.parameters_desc = '-'.join(
+            [f"{field}-{getattr(self.parameters, field)}" for field in self.parameters._fields])
         # case start.
         print(f"\n>>> >>> >>> [ {self.class_name} ][ {self.method_name} ] start >>> >>> >>>")
         print(f"class_name = {self.class_name}")
         print(f"method_name = {self.method_name}")
-        print(f"parameters = {self.parameters}")
-        # get string of parameters.
-        fields_and_values = '-'.join(
-            [f"{field}-{getattr(self.parameters, field)}" for field in self.parameters._fields])
-        # set current case golden path.
-        self.golden_path = f"{Config.golden_root_path}/{self.module_name}_{self.class_name}_{self.method_name}/{fields_and_values}"
-        print(f"golden_path = {self.golden_path}")
-        # create golden folder.
-        os.makedirs(self.golden_path, exist_ok=True)
+        print(f"parameters_desc = {self.parameters_desc}")
 
     def calculate_world_size(self, parameters):
         tp_size = 1
@@ -68,8 +61,8 @@ class TestCase:
     # *******************************************************************************
     # compare_tensor.
     # *******************************************************************************
-    def compare_tensor(self, golden_file_name: str, actual_tensor: torch.Tensor) -> bool:
-        golden_file_path = f"{self.golden_path}/{golden_file_name}"
+    def compare_tensor(self, golden_file_name: str, actual_tensor: torch.Tensor, rank) -> bool:
+        golden_file_path = f"{self.get_rank_golden_path(rank)}/{golden_file_name}"
         if enable_golden():
             print(f"save tensor from {golden_file_path}")
             save_tensor(golden_file_path, actual_tensor)
@@ -78,6 +71,14 @@ class TestCase:
             print(f"load tensor from {golden_file_path}")
             expect_tensor = load_tensor(golden_file_path)
             return torch.allclose(actual_tensor, expect_tensor)
+
+    def get_rank_golden_path(self, rank):
+        class_golden_path = f"{Config.golden_root_path}/{self.module_name}.py/{self.class_name}"
+        rank_golden_path = f"{class_golden_path}/{self.method_name}/{self.parameters_desc}/rank{rank}"
+        print(f"rank_golden_path = {rank_golden_path}")
+        if enable_golden():
+            os.makedirs(rank_golden_path, exist_ok=True)
+        return rank_golden_path
 
     # *******************************************************************************
     # raise_exception.
