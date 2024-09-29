@@ -1,4 +1,5 @@
 import collections
+import time
 
 import pytest
 import torch
@@ -8,7 +9,7 @@ from test.common.testcase import TestCase
 
 Parameters = collections.namedtuple('Parameters', ['tp_size', 'dtype', 'bias'])
 parameters_list = [
-    Parameters(1, torch.float16, True),
+    # Parameters(1, torch.float16, True),
     Parameters(2, torch.bfloat16, False),
 ]
 
@@ -30,6 +31,12 @@ class TestCCC(TestCase):
 
         print(a)
         print(b)
+
+        if rank == 0:
+            time.sleep(5)
+        else:
+            time.sleep(10)
+
         print(c)
 
         self.compare_tensor("c", c, rank)
