@@ -7,7 +7,6 @@ def CI_TESTAGENT = params.CI_TESTAGENT.trim()
 
 def CI_CASES_REGEX = params.CI_CASES_REGEX.trim()
 
-def CI_BRANCH = params.CI_BRANCH.trim()
 def CI_KEEP_TESTAGENT = params.CI_KEEP_TESTAGENT.trim()
 // ---------------------------------------------------------------------------------------------------------------------
 
