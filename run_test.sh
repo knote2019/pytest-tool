@@ -6,4 +6,4 @@ pwd
 ls -l
 # run test.
 echo "pytest ${CI_CASES_REGEX} --clean-alluredir --alluredir=./test_report"
-pytest ${CI_CASES_REGEX} --clean-alluredir --alluredir=./test_report || echo "test failed"
+pytest ${CI_CASES_REGEX} --clean-alluredir --alluredir=./test_report
