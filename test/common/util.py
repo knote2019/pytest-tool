@@ -1,7 +1,14 @@
+import enum
 import os
 
 import pynvml
 import torch
+
+
+class Precision(enum.Enum):
+    LOW = 0
+    MIDDLE = 1
+    HIGH = 2
 
 
 # *******************************************************************************
@@ -43,6 +50,40 @@ def show_tensor_full(tensor: torch.Tensor):
 # *******************************************************************************
 def update_tensor_data(tensor_old: torch.Tensor, tensor_new: torch.Tensor):
     tensor_old.data.copy_(tensor_new)
+
+
+# *******************************************************************************
+# get_precision_rtol_atol.
+# *******************************************************************************
+def get_precision_rtol_atol(dtype: torch.dtype, precision: Precision) -> (float, float):
+    if precision == Precision.LOW:
+        if dtype == torch.float16:
+            return 1e-1, 1e-0
+        else:
+            return 1e-1, 1e-0
+    elif precision == Precision.MIDDLE:
+        if dtype == torch.float16:
+            return 1e-1, 1e-1
+        else:
+            return 1e-1, 1e-1
+    elif precision == Precision.HIGH:
+        if dtype == torch.float16:
+            return 1e-2, 1e-2
+        else:
+            return 1e-2, 1e-2
+
+
+# *******************************************************************************
+# compare_tensor_with_precision.
+# *******************************************************************************
+def compare_tensor_with_precision(expect_tensor: torch.Tensor, actual_tensor: torch.Tensor, expect_precision: Precision,
+                                  expect_mismatch_percent: float = 0.0) -> bool:
+    rtol, atol = get_precision_rtol_atol(expect_tensor.dtype, expect_precision)
+    compare_result_tensor = torch.isclose(expect_tensor, actual_tensor, rtol=rtol, atol=atol, equal_nan=True)
+    total_number = compare_result_tensor.numel()
+    mismatched_number = total_number - int(torch.sum(compare_result_tensor))
+    actual_mismatch_percent = float(mismatched_number / total_number)
+    return actual_mismatch_percent <= expect_mismatch_percent
 
 
 # *******************************************************************************

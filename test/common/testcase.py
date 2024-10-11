@@ -5,6 +5,8 @@ import pytest
 import torch
 
 from test.common.config import Config
+from test.common.util import Precision
+from test.common.util import compare_tensor_with_precision
 from test.common.util import enable_golden
 from test.common.util import load_tensor
 from test.common.util import save_tensor
@@ -114,7 +116,8 @@ class RankProcess:
     # *******************************************************************************
     # compare_tensor.
     # *******************************************************************************
-    def compare_tensor(self, golden_file_name: str, actual_tensor: torch.Tensor) -> bool:
+    def compare_tensor(self, golden_file_name: str, actual_tensor: torch.Tensor, precision: Precision = Precision.HIGH,
+                       expect_mismatch_percent: float = 0.0) -> bool:
         rank_golden_path = f"{self.super_self.get_method_golden_path()}/rank-{self.rank}"
         golden_file_path = f"{rank_golden_path}/{golden_file_name}"
         if enable_golden():
@@ -122,10 +125,12 @@ class RankProcess:
             print(f"save tensor to {golden_file_path}")
             save_tensor(golden_file_path, actual_tensor)
             return True
-        else:
-            print(f"load tensor from {golden_file_path}")
-            expect_tensor = load_tensor(golden_file_path)
-            return torch.allclose(actual_tensor, expect_tensor)
+        print(f"load tensor from {golden_file_path}")
+        expect_tensor = load_tensor(golden_file_path)
+        # raise exception when check failed.
+        if not compare_tensor_with_precision(expect_tensor, actual_tensor, precision, expect_mismatch_percent):
+            self.show(f"compare with {golden_file_path} failed !!!")
+            self.raise_exception(f"compare with {golden_file_path} failed !!!")
 
     # *******************************************************************************
     # raise_exception.
