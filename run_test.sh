@@ -5,5 +5,5 @@ echo "CI_CASES_REGEX=${CI_CASES_REGEX}"
 pwd
 ls -l
 # run test.
-echo "pytest ${CI_CASES_REGEX} --capture=no --clean-alluredir --alluredir=./test_report"
-pytest ${CI_CASES_REGEX} --capture=no --clean-alluredir --alluredir=./test_report || echo "test failed"
+echo "pytest ${CI_CASES_REGEX} --clean-alluredir --alluredir=./test_report"
+pytest ${CI_CASES_REGEX} --clean-alluredir --alluredir=./test_report || echo "test failed"
