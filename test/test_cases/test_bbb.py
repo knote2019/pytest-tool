@@ -30,8 +30,8 @@ class TestCaseRankProcess(RankProcess):
         self.show(f"dtype = {parameters.dtype}")
         self.show(f"bias = {parameters.bias}")
 
-        a = self.create_1d_tensor(3, parameters.dtype)
-        b = self.create_1d_tensor(3, parameters.dtype)
+        a = self.create_1d_tensor(100, parameters.dtype)
+        b = self.create_1d_tensor(100, parameters.dtype)
         c = a + b
 
         self.show(a)
