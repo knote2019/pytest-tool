@@ -74,6 +74,15 @@ def get_precision_rtol_atol(dtype: torch.dtype, precision: Precision) -> (float,
 
 
 # *******************************************************************************
+# is_tensor_contains_nan_and_inf.
+# *******************************************************************************
+def is_tensor_contains_nan_and_inf(tensor: torch.Tensor) -> bool:
+    check_nan: bool = torch.isnan(tensor).any().item() is True
+    check_inf: bool = torch.isinf(tensor).any().item() is True
+    return check_nan or check_inf
+
+
+# *******************************************************************************
 # compare_tensor_with_precision.
 # *******************************************************************************
 def compare_tensor_with_precision(expect_tensor: torch.Tensor, actual_tensor: torch.Tensor, expect_precision: Precision,
