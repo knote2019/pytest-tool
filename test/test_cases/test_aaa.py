@@ -4,6 +4,7 @@ import pytest
 import torch
 import torch.multiprocessing as mp
 
+from test.common.testcase import RankProcess
 from test.common.testcase import TestCase
 
 Parameters = collections.namedtuple('Parameters', ['tp_size', 'dtype', 'bias'])
@@ -17,19 +18,24 @@ class TestAAA(TestCase):
     @pytest.mark.parametrize("parameters", parameters_list)
     def test_aaa(self, parameters):
         world_size = self.calculate_world_size(parameters)
-        mp.spawn(self.rank_process, nprocs=world_size, args=(world_size, parameters), join=True)
+        rank_process = TestCaseRankProcess(self, world_size, parameters)
+        print(f"\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        mp.spawn(rank_process, nprocs=world_size, join=True)
+        print(f"\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
-    def run(self, rank, parameters):
-        print(f"tp_size = {parameters.tp_size}")
-        print(f"dtype = {parameters.dtype}")
-        print(f"bias = {parameters.bias}")
+
+class TestCaseRankProcess(RankProcess):
+    def run(self, parameters):
+        self.show(f"tp_size = {parameters.tp_size}")
+        self.show(f"dtype = {parameters.dtype}")
+        self.show(f"bias = {parameters.bias}")
 
         a = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
         b = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
         c = a + b
 
-        print(a)
-        print(b)
-        print(c)
+        self.show(a)
+        self.show(b)
+        self.show(c)
 
-        self.compare_tensor("c", c, rank)
+        self.compare_tensor("c", c)
