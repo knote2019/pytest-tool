@@ -94,13 +94,16 @@ class RankProcess:
     # create_tensor.
     # *******************************************************************************
     def create_1d_tensor(self, n: int, dtype: torch.dtype) -> torch.tensor:
-        return torch.randn(n).to(dtype).to(torch.cuda.current_device()) / 10
+        device = torch.device("cuda:{}".format(self.rank))
+        return torch.randn(n).to(dtype).to(device) / 10
 
     def create_2d_tensor(self, h: int, w: int, dtype: torch.dtype) -> torch.tensor:
-        return torch.randn(h, w).to(dtype).to(torch.cuda.current_device()) / 10
+        device = torch.device("cuda:{}".format(self.rank))
+        return torch.randn(h, w).to(dtype).to(device) / 10
 
     def create_3d_tensor(self, n: int, h: int, w: int, dtype: torch.dtype) -> torch.tensor:
-        return torch.randn(n, h, w).to(dtype).to(torch.cuda.current_device()) / 10
+        device = torch.device("cuda:{}".format(self.rank))
+        return torch.randn(n, h, w).to(dtype).to(device) / 10
 
     # *******************************************************************************
     # show.
