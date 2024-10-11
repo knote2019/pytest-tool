@@ -30,8 +30,8 @@ class TestCaseRankProcess(RankProcess):
         self.show(f"dtype = {parameters.dtype}")
         self.show(f"bias = {parameters.bias}")
 
-        a = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
-        b = torch.tensor([[0.1, 1.2], [3.4, 4.5], [6.7, 7.8]])
+        a = self.create_1d_tensor(3, parameters.dtype)
+        b = self.create_1d_tensor(3, parameters.dtype)
         c = a + b
 
         self.show(a)

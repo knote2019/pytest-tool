@@ -73,6 +73,9 @@ class RankProcess:
         self.run(self.parameters)
         self.teardown()
 
+    # *******************************************************************************
+    # setup.
+    # *******************************************************************************
     def setup(self):
         print(f"rank-{self.rank}: start !!!")
         torch.distributed.init_process_group("nccl", init_method='tcp://127.0.0.1:5678',
@@ -81,8 +84,23 @@ class RankProcess:
         torch.cuda.set_device(self.rank)
         torch.manual_seed(666 + self.rank)
 
+    # *******************************************************************************
+    # run.
+    # *******************************************************************************
     def run(self, parameters):
-        pass
+        self.raise_exception("need overwrite run()")
+
+    # *******************************************************************************
+    # create_tensor.
+    # *******************************************************************************
+    def create_1d_tensor(self, n: int, dtype: torch.dtype) -> torch.tensor:
+        return torch.randn(n).to(dtype).to(torch.cuda.current_device()) / 10
+
+    def create_2d_tensor(self, h: int, w: int, dtype: torch.dtype) -> torch.tensor:
+        return torch.randn(h, w).to(dtype).to(torch.cuda.current_device()) / 10
+
+    def create_3d_tensor(self, n: int, h: int, w: int, dtype: torch.dtype) -> torch.tensor:
+        return torch.randn(n, h, w).to(dtype).to(torch.cuda.current_device()) / 10
 
     # *******************************************************************************
     # show.
@@ -94,8 +112,10 @@ class RankProcess:
     # compare_tensor.
     # *******************************************************************************
     def compare_tensor(self, golden_file_name: str, actual_tensor: torch.Tensor) -> bool:
-        golden_file_path = f"{self.get_rank_golden_path(self.rank)}/{golden_file_name}"
+        rank_golden_path = f"{self.super_self.get_method_golden_path()}/rank-{self.rank}"
+        golden_file_path = f"{rank_golden_path}/{golden_file_name}"
         if enable_golden():
+            os.makedirs(rank_golden_path, exist_ok=True)
             print(f"save tensor to {golden_file_path}")
             save_tensor(golden_file_path, actual_tensor)
             return True
@@ -111,15 +131,8 @@ class RankProcess:
         raise Exception(msg)
 
     # *******************************************************************************
-    # get_rank_golden_path.
+    # teardown.
     # *******************************************************************************
-    def get_rank_golden_path(self, rank):
-        rank_golden_path = f"{self.super_self.get_method_golden_path()}/rank{rank}"
-        print(f"rank_golden_path = {rank_golden_path}")
-        if enable_golden():
-            os.makedirs(rank_golden_path, exist_ok=True)
-        return rank_golden_path
-
     def teardown(self):
         torch.cuda.empty_cache()
         torch.distributed.destroy_process_group()
