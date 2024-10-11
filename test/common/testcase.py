@@ -137,12 +137,20 @@ class RankProcess:
     # raise_exception.
     # *******************************************************************************
     def raise_exception(self, msg):
+        self.clean_resource()
         raise Exception(msg)
 
     # *******************************************************************************
     # teardown.
     # *******************************************************************************
     def teardown(self):
+        self.clean_resource()
+        print(f"rank-{self.rank}: stop !!!")
+
+    # *******************************************************************************
+    # clean_resource.
+    # *******************************************************************************
+    def clean_resource(self):
         torch.cuda.empty_cache()
         torch.distributed.destroy_process_group()
-        print(f"rank-{self.rank}: stop !!!")
+        self.show(f"resource cleaned !!!")
