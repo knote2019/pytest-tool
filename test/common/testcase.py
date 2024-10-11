@@ -74,7 +74,7 @@ class RankProcess:
         self.teardown()
 
     def setup(self):
-        print(f"rank-{self.rank} start !!!")
+        print(f"rank-{self.rank}: start !!!")
         torch.distributed.init_process_group("nccl", init_method='tcp://127.0.0.1:5678',
                                              world_size=self.world_size,
                                              rank=self.rank)
@@ -123,4 +123,4 @@ class RankProcess:
     def teardown(self):
         torch.cuda.empty_cache()
         torch.distributed.destroy_process_group()
-        print(f"rank-{self.rank} stop !!!")
+        print(f"rank-{self.rank}: stop !!!")
